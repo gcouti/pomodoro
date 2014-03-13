@@ -189,6 +189,7 @@ class PomodoroTimer():
 
 class Indicator():
     """
+      Indicator class for systray. Here we change values that will be showed for users
     """
     def __init__(self):
         LOG.debug("Init indicator")        
@@ -207,8 +208,7 @@ class Indicator():
         self.ind.set_icon("pomodore-init") 
 
 
-class Timer(threading.Thread):
-    
+class Timer(threading.Thread):    
     """
         Timer is a thread that count time of pomodore timer 
     """
