@@ -1,3 +1,27 @@
+#! /usr/bin/python
+
+# The MIT License (MIT)
+
+# Copyright (c) <year> <copyright holders>
+
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
+
 import sys
 import os
 import gobject
@@ -11,16 +35,16 @@ import logging
 
 logging.basicConfig(format=settings.LOG_FORMAT) 
 LOG = logging.getLogger(__name__)
-LOG.setLevel(logging.DEBUG)
+LOG.setLevel(settings.LOG_LEVEL)
 
 gtk.gdk.threads_init()
 pynotify.init("Timekpr notification") 
 
 class PomodoroTimer():
     """
-        This class represent master object of ubuntu indicator.
+    This class represent master object of ubuntu indicator.
 
-        Every pomodoro timer has indicator and timer
+    Every pomodoro timer has indicator and timer
     """
 
     def __init__(self):
@@ -50,7 +74,7 @@ class PomodoroTimer():
 
     def item_start_action(self,w):
         """
-            Change conditions to START one pomodore cicle	
+            Change conditions to START one pomodore cicle
         """
         LOG.debug("Start action")
 
@@ -136,6 +160,7 @@ class PomodoroTimer():
         
     def end_pomodore_work(self):         
         """
+            When pomodore work ends it must be execute
         """
         LOG.debug("End pomodore work")
 
@@ -185,6 +210,15 @@ class PomodoroTimer():
         n.show()
         
         self.ind.reset()  
+
+        # Hide unused menus
+        for item in self.menu:
+            LOG.debug("NM: " + item.get_label())
+            if item.get_label() == "Stop" or item.get_label() == "Reset":
+                item.hide()
+            if item.get_label() == "Start":
+                item.show()
+
 
 
 class Indicator():
